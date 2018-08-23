@@ -2,6 +2,8 @@ import axios from 'axios'
 
 export const GETTING_NOTE = "GETTING_NOTE"
 export const GET_NOTE = "GET_NOTE"
+export const VIEWING_NOTE = "VIEWING_NOTE"
+export const VIEW_NOTE = "VIEW_NOTE"
 export const ADDING_NOTE = "ADDING_NOTE"
 export const ADDED_NOTE = "ADDED_NOTE"
 export const EDITING_NOTE = "EDITING_NOTE"
@@ -47,6 +49,21 @@ export const deleteNote = id =>{
         noteDelete
         .then(({data})=>{
             dispatch({type: DELETED_NOTE, payload: data})
+        })
+        .catch(err => {
+            ({type: ERROR, payload: err})
+        })
+    }
+}
+export const editNote = id => {
+    const noteEdit = axios.put(`${URL}/note/edit/id`, id, {
+        data: {id}
+    });
+    return dispatch=>{
+        dispatch({typpe: EDITING_NOTE});
+        noteEdit
+        .then(({data})=>{
+            dispatch({type: EDITED_NOTE, payload: data})
         })
         .catch(err => {
             ({type: ERROR, payload: err})
